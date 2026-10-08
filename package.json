@@ -1,0 +1,12 @@
+{
+  "name": "avanza-plataforma",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AVANZA: demo de crédito transparente con API y controles de operación",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": { "node": ">=20" }
+}
