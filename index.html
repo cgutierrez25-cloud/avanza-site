@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AVANZA · Crédito con claridad (demo)</title>
+<meta name="description" content="Demo de AVANZA: simulador de préstamo personal con CAT, evaluación orientativa y solicitud de prueba. Todo es simulado.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FinancialProduct","name":"AVANZA Préstamo Personal (demo)","description":"Simulación informativa, no es una oferta."}</script>
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#12302b;--mut:#55706a;--line:#dcd6c6;--brand:#0d5c4f;--acc:#f0a421;--accink:#3b2600;--ok:#1b7a3d;--warn:#a86a00;--bad:#b3261e;--cap:#0d5c4f;--int:#f0a421;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1f1c;--card:#143029;--ink:#eef3ef;--mut:#a3bbb4;--line:#27483f;--brand:#5fd1b8;--acc:#f0a421;--ok:#6fdc8f;--warn:#ffc65c;--bad:#ff8a80;--cap:#5fd1b8}}
+:root[data-theme="dark"]{--bg:#0d1f1c;--card:#143029;--ink:#eef3ef;--mut:#a3bbb4;--line:#27483f;--brand:#5fd1b8;--acc:#f0a421;--ok:#6fdc8f;--warn:#ffc65c;--bad:#ff8a80;--cap:#5fd1b8}
+*,*:before,*:after{box-sizing:inherit}html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'DM Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.1;margin:0 0 .5em}
+h1{font-size:clamp(2.3rem,8vw,4.4rem);font-weight:800}h2{font-size:clamp(1.6rem,4.5vw,2.3rem)}h3{font-size:1.15rem}
+a{color:var(--brand)}main section{max-width:1040px;margin:0 auto;padding:44px 18px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+nav{max-width:1040px;margin:auto;display:flex;gap:14px;align-items:center;padding:10px 18px;overflow-x:auto;white-space:nowrap}
+nav b{font-family:Fraunces,serif;font-size:1.3rem;margin-right:auto;color:var(--brand)}nav a{text-decoration:none;color:var(--ink);font-size:.92rem}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 18px;background:var(--acc);color:var(--accink);cursor:pointer;text-decoration:none;display:inline-block}
+button.sec{background:transparent;color:var(--ink);border:1.5px solid var(--line)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.hero{display:grid;gap:26px;align-items:center}@media(min-width:800px){.hero{grid-template-columns:1.2fr 1fr}}
+.hero em{font-style:normal;color:var(--brand)}.tag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid{display:grid;gap:14px}@media(min-width:700px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+label{display:block;font-weight:700;font-size:.9rem;margin:12px 0 4px}input,select{width:100%;font:inherit;padding:10px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}input[type=range]{padding:0;accent-color:var(--brand)}
+.big{font-family:Fraunces,serif;font-size:2.3rem;font-weight:800;color:var(--brand)}.mut{color:var(--mut);font-size:.9rem}
+.kv{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:6px 0}
+.scroll{overflow-x:auto;max-width:100%}table{border-collapse:collapse;width:100%;font-size:.85rem;font-variant-numeric:tabular-nums}th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line)}th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+canvas{width:100%;height:180px;display:block}.chip{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:99px;border:1.5px solid var(--warn);color:var(--warn);margin:2px}
+.sem{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:8px;vertical-align:-2px}.note{border-left:4px solid var(--acc);padding:8px 12px;background:var(--card);border-radius:0 10px 10px 0;font-size:.88rem}
+.steps{display:flex;gap:6px;margin-bottom:10px}.steps span{flex:1;height:6px;border-radius:9px;background:var(--line)}.steps span.on{background:var(--brand)}
+.err{color:var(--bad);font-size:.82rem;min-height:1em}ol.tl{list-style:none;padding:0}ol.tl li{padding:4px 0 4px 26px;position:relative;color:var(--mut)}ol.tl li:before{content:"○";position:absolute;left:0}ol.tl li.done{color:var(--ink);font-weight:700}ol.tl li.done:before{content:"●";color:var(--ok)}
+footer{border-top:1px solid var(--line);padding:26px 18px;text-align:center;color:var(--mut);font-size:.82rem;max-width:1040px;margin:auto}
+.row{display:grid;gap:10px}@media(min-width:600px){.row{grid-template-columns:repeat(3,1fr)}}
+#cookies{display:none!important;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.85rem;box-shadow:0 6px 24px #0004}
+#wa{position:fixed;right:14px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:8;background:#1fa855;color:#fff;border-radius:99px;padding:12px 16px;text-decoration:none;font-weight:700}
+details{border-bottom:1px solid var(--line);padding:10px 0}summary{cursor:pointer;font-weight:700}
+.tabs{display:flex;gap:8px;margin:10px 0}.tabs .on{background:var(--brand);color:#fff}.metricgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.metric{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px}.metric strong{display:block;font:800 1.8rem Fraunces,serif;color:var(--brand)}.metric span{color:var(--mut);font-size:.82rem}.dashnav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.dashnav button{font-size:.86rem;padding:9px 12px}
+#docbox{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 24px}
+#docbox pre{white-space:pre-wrap;font:13px/1.5 ui-monospace,Menlo,monospace;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+@media print{body.pdoc>*:not(#docbox){display:none!important}#docbox{position:static}#docbox .nop{display:none}}
+@media print{#cookies,#wa,header,#mapa,footer,.nop{display:none}}
+</style>
+</head>
+<body>
+<header><nav aria-label="Principal"><b>AVANZA</b><a href="#marca">Marca</a><a href="#simulador">Simulador</a><a href="#herramientas">Herramientas</a><a href="#evaluacion">Evaluación</a><a href="#solicitud">Solicitud</a><a href="#vision">Visión</a><a href="#ruta-real">Ruta real</a><a href="#marketing">Marketing</a><a href="#panel">Panel</a><a href="#faq">FAQ</a><a href="#estado">Estado</a>
+<button class="sec" id="tema" aria-label="Cambiar tema claro u oscuro" style="padding:6px 12px">◐</button></nav></header>
+<main>
+<section class="hero" id="inicio">
+ <div><span class="tag">Préstamos personales · México · DEMO</span>
+ <h1>Crédito con <em>claridad.</em></h1>
+ <p style="font-size:1.15rem;max-width:34em">Ves cuánto pagas, cuánto cuesta de verdad (CAT) y cuándo terminas, antes de decidir. Sin letras chiquitas.</p>
+ <p><a class="btn" href="#simulador">Simular mi crédito</a> <a class="btn sec" style="background:transparent;border:1.5px solid var(--line);color:var(--ink)" href="#solicitud">Solicitud de prueba</a></p></div>
+ <div class="card"><span class="tag">Ejemplo en vivo</span><div class="big" id="heroCuota">—</div><div class="mut" id="heroSub"></div>
+ <div class="note" style="margin-top:12px">Demostración. No es una oferta de crédito ni asesoría financiera o legal.</div></div>
+</section>
+
+<section id="marca"><span class="tag">Quiénes somos</span><h2>Marca, misión y visión</h2>
+<div class="grid g3">
+ <div class="card"><h3>Misión</h3><p>Dar acceso a crédito personal justo explicando cada peso: cuota, costo total y CAT visibles antes de firmar, para que las personas decidan con confianza.</p></div>
+ <div class="card"><h3>Visión</h3><p>Ser la financiera mexicana en la que la gente confía por su transparencia: la que explica antes de cobrar y acompaña durante todo el crédito.</p></div>
+ <div class="card"><h3>Valores</h3><p><b>Claridad</b> (todo el costo a la vista), <b>respeto</b> (cobranza digna), <b>responsabilidad</b> (solo prestamos lo que se puede pagar).</p></div>
+</div></section>
+
+<section id="testimonios"><span class="tag">Testimonios · personajes ficticios de ejemplo</span><div class="grid g3">
+<div class="card"><p>“Me mostraron el CAT antes de firmar. Eso no me había pasado.”</p><p class="mut">— Persona ficticia, CDMX</p></div>
+<div class="card"><p>“Adelanté un pago y vi cuánto me ahorraba en intereses.”</p><p class="mut">— Persona ficticia, Monterrey</p></div>
+<div class="card"><p>“Entendí cuánto pagaría si me atrasaba, sin sorpresas.”</p><p class="mut">— Persona ficticia, Guadalajara</p></div></div></section>
+<section id="simulador"><span class="tag">Simulador</span><h2>¿Cuánto pagarías?</h2>
+<div class="grid g2">
+ <div class="card">
+  <label for="prod">Producto</label><select id="prod"></select>
+  <label for="frec">Frecuencia de pago</label><select id="frec"><option value="12">Mensual</option><option value="26">Quincenal</option><option value="52">Semanal</option></select>
+  <label for="monto">Monto: <output id="oMonto"></output></label><input type="range" id="monto">
+  <label for="plazo">Plazo: <output id="oPlazo"></output></label><input type="range" id="plazo">
+  <label for="rate">Tasa anual ordinaria</label><input id="rate" readonly>
+  <label for="desembolso">Fecha de desembolso</label><input id="desembolso" type="date">
+  <label for="diaPago">Día de pago</label><select id="diaPago"></select>
+  <label for="feriados">Feriados (AAAA-MM-DD, separados por coma)</label><input id="feriados" placeholder="2026-12-25, 2027-01-01">
+  <p><button type="button" class="sec" id="aplicaCalendario">Aplicar calendario</button> <button type="button" class="sec" id="restauraCalendario">Restaurar</button></p><p class="mut" id="calOut" aria-live="polite"></p>
+  <p class="mut" id="aviso"></p></div>
+ <div class="card"><div class="mut">Pago por periodo</div><div class="big" id="cuota">—</div>
+  <div id="resumen"></div>
+  <p class="mut">CAT sin IVA, para fines informativos y de comparación.</p><button class="sec nop" id="guardaEsc">+ Guardar para comparar</button></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Capital vs. intereses por pago</h3><canvas id="chart" role="img" aria-label="Gráfico de barras apiladas de capital e intereses por pago"></canvas>
+ <p class="mut"><span class="sem" style="background:var(--cap)"></span>Capital <span class="sem" style="background:var(--int);margin-left:12px"></span>Intereses</p></div>
+<div class="card" style="margin-top:14px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><h3>Cronograma</h3><span class="nop"><button class="sec" id="csv">Descargar CSV</button> <button class="sec" onclick="print()">Imprimir</button></span></div>
+ <div class="scroll"><table id="crono"></table></div></div>
+</section>
+
+<section id="herramientas"><span class="tag">Herramientas</span><h2>Compara, adelanta pagos y calcula mora</h2>
+<div class="card"><h3>Comparador de escenarios (máx. 3)</h3><p class="mut">Cambia producto, monto, plazo o frecuencia arriba y pulsa «Guardar para comparar».</p><div class="scroll"><table id="cmp"></table></div><button class="sec" id="limpia">Limpiar</button></div>
+<div class="card" style="margin-top:14px"><h3>Pago anticipado (sobre la simulación actual)</h3><div class="row">
+<div><label for="apK">Después del pago #</label><input id="apK" type="number" min="1" value="3"></div>
+<div><label for="apX">Abono extra (MXN)</label><input id="apX" type="number" min="0" value="2000"></div>
+<div><label for="apM">Efecto</label><select id="apM"><option value="plazo">Reducir plazo</option><option value="cuota">Reducir cuota</option></select></div></div>
+<div id="apOut" aria-live="polite" style="margin-top:10px"></div><p class="mut">Sin penalización por pago anticipado (VALIDAR en contrato).</p></div>
+<div class="card" style="margin-top:14px"><h3>Calculadora de mora</h3><div class="row">
+<div><label for="moC">Cuota vencida (MXN)</label><input id="moC" type="number" min="0" value="1500"></div>
+<div><label for="moV">Fecha de vencimiento</label><input id="moV" type="date"></div>
+<div><label for="moP">Fecha de pago</label><input id="moP" type="date"></div></div>
+<div id="moOut" aria-live="polite" style="margin-top:10px"></div><p class="mut">La mora se calcula solo sobre la cuota vencida, sin capitalizar intereses moratorios. Tasa y cargos de ejemplo: VALIDAR.</p></div>
+<div class="card" style="margin-top:14px"><h3>Refinanciar una deuda vencida</h3><div class="row"><div><label for="rfM">Adeudo a refinanciar (MXN)</label><input id="rfM" type="number" min="500" value="8000"></div><div><label for="rfP">Nuevo plazo (meses)</label><input id="rfP" type="number" min="3" max="36" value="12"></div></div><div id="rfOut" aria-live="polite" style="margin-top:10px"></div><p class="mut">Tasa de refinanciamiento de ejemplo en CONFIG. VALIDAR.</p></div>
+</section>
+<section id="evaluacion"><span class="tag">Evaluación orientativa</span><h2>¿Qué tan viable se ve?</h2>
+<div class="grid g2"><div class="card">
+ <label for="edad">Edad</label><input id="edad" type="number" value="32" min="0" max="99">
+ <label for="ing">Ingreso mensual comprobable (MXN)</label><input id="ing" type="number" value="18000" min="0">
+ <label for="deu">Pagos mensuales de otras deudas (MXN)</label><input id="deu" type="number" value="1500" min="0">
+ <label for="ant">Antigüedad laboral (meses)</label><input id="ant" type="number" value="24" min="0">
+ <label for="emp">Tipo de empleo</label><select id="emp"><option value="1">Nómina formal</option><option value=".75">Honorarios / independiente con comprobantes</option><option value=".45">Ingresos informales</option></select>
+ <label for="hist">Historial de pagos</label><select id="hist"><option value="1">Excelente</option><option value=".7" selected>Bueno</option><option value=".4">Regular</option><option value=".1">Con atrasos</option></select>
+ <p><button id="evalBtn">Evaluar con la cuota simulada</button></p></div>
+ <div class="card" id="evalOut" aria-live="polite"><p class="mut">Usa el monto y plazo del simulador. Resultado orientativo: no consulta Buró ni Círculo de Crédito (consulta simulada con datos de ejemplo).</p></div></div>
+</section>
+
+<section id="solicitud"><span class="tag">Solicitud de prueba</span><h2>Mi solicitud</h2>
+<div class="grid g2"><div class="card"><div class="steps" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+ <form id="frm" novalidate onsubmit="return false">
+  <div data-s="0"><label for="nom">Nombre completo</label><input id="nom" autocomplete="name"><label for="curp">CURP (18 caracteres)</label><input id="curp" maxlength="18" style="text-transform:uppercase"><label for="mail">Correo</label><input id="mail" type="email" autocomplete="email"><label for="tel">Teléfono (10 dígitos)</label><input id="tel" inputmode="numeric" maxlength="10"></div>
+  <div data-s="1" hidden><p>Se solicitará con los datos del simulador:</p><p><b id="solRes"></b></p><p class="mut">Documentos (INE, comprobantes): carga simulada, no se sube ningún archivo.</p><label for="otp">Código OTP (simulado: <b>123456</b>)</label><input id="otp" inputmode="numeric" maxlength="6"></div>
+  <div data-s="2" hidden><label style="font-weight:400"><input type="checkbox" id="c1" style="width:auto"> Acepto el aviso de privacidad (borrador de ejemplo).</label><label style="font-weight:400"><input type="checkbox" id="c2" style="width:auto"> Entiendo que esta solicitud es una prueba y no genera ningún crédito.</label></div>
+  <div class="err" id="err" role="alert"></div>
+  <button class="sec" id="prev" type="button">Atrás</button> <button id="next" type="button">Siguiente</button></form></div>
+ <div class="card" id="folio"><p class="mut">Al terminar recibirás un folio de seguimiento y verás la línea de tiempo del estado. Se guarda solo en este navegador (localStorage), simulando un backend.</p></div></div>
+</section>
+
+<section id="vision"><span class="tag">Propuesta de valor</span><h2>Una visión de crédito más clara y responsable</h2><div class="grid g3"><div class="card"><h3>Para quien solicita</h3><p>Entender la cuota, el CAT, el total y la fecha final antes de comprometerse. Sin depender de cálculos ocultos.</p></div><div class="card"><h3>Para quien opera</h3><p>Una operación trazable: riesgo, cobranza, contratos, Gobierno y cumplimiento en un mismo centro de control.</p></div><div class="card"><h3>La promesa AVANZA</h3><p><b>Explicar antes de cobrar, acompañar durante el crédito y documentar cada decisión.</b></p></div></div><div class="card" style="margin-top:14px"><h3>Cómo funciona</h3><div class="grid g4"><div><b>1. Simula</b><p class="mut">Elige monto, plazo y frecuencia.</p></div><div><b>2. Compara</b><p class="mut">Revisa CAT, intereses y total.</p></div><div><b>3. Solicita</b><p class="mut">Envía una solicitud de prueba.</p></div><div><b>4. Da seguimiento</b><p class="mut">Consulta estado, pagos y documentos.</p></div></div></div><p class="note" style="margin-top:14px"><b>Compromiso de transparencia:</b> la demo identifica qué es ejemplo, qué está pendiente y qué debe validar un abogado financiero mexicano.</p></section>
+
+<section id="ruta-real"><span class="tag">Estado del producto</span><h2>Qué está listo y qué falta para operar de verdad</h2><p class="mut">Esta vista evita confundir la demostración con una plataforma financiera en producción.</p><div class="grid g3"><div class="card"><h3><span class="sem" style="background:var(--ok)"></span>Listo en la demo</h3><ul><li>Simulador, CAT y cronograma.</li><li>Calendario con feriados.</li><li>Solicitud de prueba y folio.</li><li>Panel con acceso demo.</li><li>Gobierno, riesgos y cobranza simulados.</li><li>Pruebas automáticas en el documento.</li></ul></div><div class="card"><h3><span class="sem" style="background:var(--warn)"></span>Antes de un piloto</h3><ul><li>Backend y base de datos central.</li><li>Usuarios, roles y bitácora.</li><li>Estado de cuenta con movimientos reales.</li><li>Flujos de aprobación y revisión manual.</li><li>Respaldos, cifrado y recuperación.</li><li>Pruebas de seguridad y accesibilidad.</li></ul></div><div class="card"><h3><span class="sem" style="background:var(--bad)"></span>Antes de operar financieramente</h3><ul><li>Identidad, KYC y antifraude certificados.</li><li>SPEI, CLABE, pagos y conciliación.</li><li>Contratos y avisos revisados por abogado.</li><li>RECA, UNE, CONDUSEF y obligaciones aplicables.</li><li>PLD/FT y listas oficiales.</li><li>Monitoreo, soporte y continuidad operativa.</li></ul></div></div><div class="card" style="margin-top:14px"><h3>Orden recomendado de construcción</h3><ol><li><b>Publicación estable:</b> cargar la aplicación fuente, definir la ruta raíz y validar el preview.</li><li><b>Persistencia:</b> API, base de datos, usuarios, roles y bitácora de cambios.</li><li><b>Crédito:</b> calendario persistente, pagos, estado de cuenta y conciliación.</li><li><b>Riesgo:</b> identidad, KYC, antifraude y revisión manual.</li><li><b>Cumplimiento:</b> contratos, firma, privacidad, PLD y revisión legal.</li><li><b>Operación:</b> cobranza, convenios, notificaciones, soporte y métricas.</li></ol><p class="note"><b>Criterio de salida:</b> no pasar a producción mientras los datos sigan solo en el navegador, los textos legales sean de ejemplo o los pagos no estén conciliados.</p></div></section>
+
+<section id="marketing"><span class="tag">Estrategia</span><h2>Marketing: vender claridad</h2>
+<div class="grid g4">
+ <div class="card"><h3>Posicionamiento</h3><p>“El crédito que te muestra el costo real”: CAT y total a pagar siempre junto a la cuota.</p></div>
+ <div class="card"><h3>Público</h3><p>Personas de 25 a 45 años con ingreso comprobable que quieren un plan claro: consolidar deudas, imprevistos, proyectos.</p></div>
+ <div class="card"><h3>Canales</h3><p>SEO y contenido educativo, búsqueda de pago con CAT visible, WhatsApp, alianzas con empleadores, referidos.</p></div>
+ <div class="card"><h3>Embudo y KPIs</h3><p>Visita → simulación → evaluación → solicitud → desembolso. Medir: % que simula, % que solicita, CAC, mora a 30 días, NPS.</p></div>
+</div>
+<p class="note" style="margin-top:14px">Regla de la marca: nunca anunciar una tasa o cuota sin su CAT visible y legible. Toda campaña requiere revisión legal previa (pendiente de implementar).</p></section>
+
+<section id="panel"><span class="tag">Operación interna · simulada</span><h2>Centro de control AVANZA</h2><p class="mut">Un solo acceso para consultar solicitudes, riesgo, cobranza, jurídico, Gobierno, registros, pruebas y métricas de la demo.</p>
+<div class="card" id="gate"><label for="pw">Contraseña (demo: <b>avanza2026</b>)</label><input id="pw" type="password" autocomplete="off"><p><button id="entrar">Entrar</button> <span class="err" id="pwErr"></span></p></div>
+<div id="adm" hidden><div class="tabs"><button id="t0" class="on">Resumen</button><button id="t1" class="sec">Solicitudes</button><button id="t2" class="sec">Jurídico</button><button class="sec" id="t3">Casos</button><button class="sec" id="t4">Gobierno</button><button class="sec" id="salir">Salir</button></div>
+<div id="p0"><div class="card"><h3>Vista general</h3><div id="dashMetrics" class="metricgrid"></div><div class="dashnav"><button class="sec" data-go="1">Solicitudes</button><button class="sec" data-go="2">Jurídico y Gobierno</button><button class="sec" data-go="3">Casos y cobranza</button><button class="sec" data-go="4">Registros de Gobierno</button><button class="sec" id="dashRefresh">Actualizar</button></div></div><div class="grid g2" style="margin-top:14px"><div class="card"><h3>Estado operativo</h3><div id="dashStatus"></div></div><div class="card"><h3>Qué incluye este centro</h3><ul><li>Solicitudes y estados.</li><li>Evaluación, riesgos y contratos.</li><li>Casos, quejas y cobranza.</li><li>Registros, adjuntos y brechas.</li><li>Pruebas automáticas de la demo.</li></ul></div></div><div class="card" style="margin-top:14px"><h3>Prioridad siguiente</h3><p>Publicar la aplicación fuente, conectar persistencia segura y reemplazar los datos simulados por movimientos trazables.</p><a class="btn" href="#ruta-real">Ver ruta de producción</a></div></div>
+<div id="p1" class="card" hidden><label for="flt">Filtrar por estado</label><select id="flt"></select><div class="scroll"><table id="lista"></table></div></div>
+<div id="p2" hidden>
+ <div class="card"><h3>Tablero</h3><div id="tab"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Huella SHA-256 de un texto</h3><p class="mut">Cambia una sola palabra y la huella cambia por completo.</p><textarea id="hTxt" rows="3" style="width:100%;font:inherit;padding:8px">El crédito es por $10,000.00 MXN.</textarea><p class="mut" style="word-break:break-all" id="hOut"></p></div>
+ <div class="card" style="margin-top:14px"><h3>Control de prescripción</h3><label for="prF">Fecha de vencimiento del adeudo</label><input id="prF" type="date"><div id="prOut" style="margin-top:8px"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Matriz de cumplimiento <span class="chip">EJEMPLO – VALIDAR</span></h3><div class="scroll"><table id="mat"></table></div></div>
+ <div class="card" style="margin-top:14px"><h3>Riesgo legal y cambios regulatorios</h3><div class="row"><div><label for="gT">Tipo</label><select id="gT"><option>Riesgo legal</option><option>Cambio regulatorio</option></select></div><div><label for="gD">Descripción</label><input id="gD"></div><div><label for="gR">Responsable</label><input id="gR"></div><div><label for="gP">Probabilidad (1-5)</label><input id="gP" type="number" min="1" max="5" value="3"></div><div><label for="gI">Impacto (1-5)</label><input id="gI" type="number" min="1" max="5" value="3"></div><div><label>&nbsp;</label><button id="gBtn">Registrar</button></div></div><div class="scroll"><table id="gTab"></table></div></div>
+</div>
+<div id="p3" hidden>
+ <div class="card"><label for="cSel">Solicitud</label><select id="cSel"></select><p class="mut" id="cInfo"></p></div>
+ <div class="card" style="margin-top:14px"><h3>Pagaré y custodia</h3><button id="pgBtn">Generar pagaré</button> <select id="pgCus" aria-label="Custodia"><option>Digital</option><option>Físico</option><option>Endosado</option><option>Devuelto al liquidar</option></select><pre id="pgOut" style="margin-top:10px;white-space:pre-wrap"></pre></div>
+ <div class="card" style="margin-top:14px"><h3>Quejas, aclaraciones y concurso</h3><div class="row"><div><label for="qTipo">Tipo</label><select id="qTipo"><option>Queja UNE</option><option>Aclaración de cargo</option><option>Concurso del deudor</option><option>Fallecimiento del deudor</option></select></div><div><label>&nbsp;</label><button id="qBtn">Abrir caso</button></div></div><div class="scroll"><table id="qTab"></table></div></div>
+ <div class="card" style="margin-top:14px"><h3>Cobranza</h3><div class="row"><div><label for="cDias">Días de atraso</label><input id="cDias" type="number" min="0" value="45"></div><div><label for="cHora">Hora del contacto (0-23)</label><input id="cHora" type="number" min="0" max="23" value="10"></div><div><label>&nbsp;</label><button id="cBtn">Registrar intento</button></div></div><div id="cOut" aria-live="polite" style="margin-top:8px"></div>
+ <p class="mut">Etapas del juicio ejecutivo mercantil: demanda, auto de exequendo, requerimiento y embargo, emplazamiento, contestación, pruebas, sentencia, ejecución y remate (borrador, validar con abogado).</p></div>
+ <div class="card" style="margin-top:14px"><h3>Cobranza judicial y extrajudicial</h3><p><button id="lgCarta">Carta de requerimiento</button> <button class="sec" id="lgDem">Plantilla de demanda</button></p><label for="lgTxt">Borrador editable (revisión de abogado obligatoria)</label><textarea id="lgTxt" rows="9" style="width:100%;font:inherit;padding:8px"></textarea></div>
+ <div class="card" style="margin-top:14px"><h3>Decisión legal y provisión</h3><div class="row"><div><label for="lgProb">Probabilidad de recuperar (%)</label><input id="lgProb" type="number" min="0" max="100" value="50"></div><div><label for="lgCosto">Costo esperado del juicio (MXN)</label><input id="lgCosto" type="number" min="0" value="5000"></div><div><label>&nbsp;</label><button id="lgEval">Evaluar</button></div></div><div id="lgOut" aria-live="polite" style="margin-top:8px"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Despachos externos</h3><div class="row"><div><label for="dsN">Despacho</label><input id="dsN" placeholder="Nombre"></div><div><label for="dsP">Cuota litis (%)</label><input id="dsP" type="number" min="0" max="100" value="20"></div><div><label for="dsS">SLA de informe (días)</label><input id="dsS" type="number" min="1" value="30"></div></div><div class="row"><div><label for="dsC">Cláusula de auditoría</label><input id="dsC" placeholder="Sí / No"></div><div><label for="dsA">Última auditoría</label><input id="dsA" type="date"></div><div><label for="dsR">Resultado</label><input id="dsR" placeholder="Pendiente / Conforme"></div></div><p><button id="dsBtn">Agregar despacho</button></p><div class="scroll"><table id="dsTab"></table></div><p class="mut">Reglas de conducta del despacho: sin presión a terceros ni uso de contactos de referencia (VALIDAR).</p></div>
+ <div class="card" style="margin-top:14px"><h3>Embargos: límites</h3><label for="emB">Tipo de bien</label><select id="emB"><option>Salario</option><option>Casa habitación</option><option>Instrumentos de trabajo</option><option>Vehículo</option><option>Cuenta bancaria</option></select><div id="emOut" aria-live="polite" style="margin-top:8px"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Contingencias judiciales</h3><div class="row"><div><label for="ctM">Monto en juicio (MXN)</label><input id="ctM" type="number" min="0" value="20000"></div><div><label for="ctP">Probabilidad de pérdida (%)</label><input id="ctP" type="number" min="0" max="100" value="40"></div><div><label>&nbsp;</label><button id="ctBtn">Registrar</button></div></div><div class="scroll"><table id="ctTab"></table></div></div>
+ <div class="card" style="margin-top:14px"><h3>Juicio: etapas</h3><div class="row"><div><label for="etE">Etapa</label><select id="etE"></select></div><div><label for="etR">Responsable</label><input id="etR" placeholder="Abogado / despacho"></div><div><label for="etC">Costo (MXN)</label><input id="etC" type="number" min="0" value="0"></div></div><p><button id="etBtn">Registrar etapa</button></p><div class="scroll"><table id="etTab"></table></div></div>
+ <div class="card" style="margin-top:14px"><h3>ARCO</h3><div class="row"><div><label for="aTipo">Derecho</label><select id="aTipo"><option>Acceso</option><option>Rectificación</option><option>Cancelación</option><option>Oposición</option></select></div><div><label>&nbsp;</label><button id="aBtn">Registrar solicitud</button></div></div><div class="scroll"><table id="aTab"></table></div></div>
+ <div class="card" style="margin-top:14px"><h3>PLD / KYC (listas simuladas)</h3><label for="pNom">Nombre a revisar</label><input id="pNom" placeholder="Prueba con: Juan Pérez Ejemplo"><p><button id="pBtn">Revisar</button></p><div id="pOut" aria-live="polite"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Antifraude: duplicados</h3><p class="mut">Busca CURP o teléfono repetidos en las solicitudes guardadas localmente.</p><div class="row"><div><label for="afCurp">CURP</label><input id="afCurp" maxlength="18"></div><div><label for="afTel">Teléfono</label><input id="afTel" maxlength="10" inputmode="numeric"></div><div><label>&nbsp;</label><button id="afBtn">Buscar duplicados</button></div></div><div id="afOut"></div></div>
+ <div class="card" style="margin-top:14px"><h3>Estado de cuenta mensual</h3><div class="row"><div><label for="ecMes">Mes</label><input id="ecMes" type="month"></div><div><label>&nbsp;</label><button id="ecBtn">Generar estado</button></div></div><pre id="ecOut" style="white-space:pre-wrap"></pre></div>
+ <div class="card" style="margin-top:14px"><h3>Cobranza: sucesión completa</h3><div class="row"><div><label for="suEt">Etapa</label><select id="suEt"><option>Preventiva</option><option>Administrativa</option><option>Extrajudicial</option><option>Demanda</option><option>Auto de exequendo</option><option>Requerimiento y embargo</option><option>Emplazamiento</option><option>Contestación</option><option>Pruebas</option><option>Sentencia</option><option>Ejecución</option><option>Remate</option><option>Convenio / liquidación</option></select></div><div><label for="suRes">Resultado</label><input id="suRes"></div><div><label for="suSig">Siguiente acción</label><input id="suSig"></div></div><p><button id="suBtn">Registrar gestión</button></p><div class="scroll"><table id="suTab"></table></div></div>
+</div>
+<div id="p4" hidden></div></div></section>
+<div id="docbox" hidden><div class="nop"><button id="imp">Imprimir / guardar PDF</button> <button class="sec" id="cierra">Cerrar</button></div><h2 id="docT"></h2><pre id="docP"></pre><p class="mut" id="docH"></p>
+<div id="firmaBox" class="card nop" hidden><h3>Firma electrónica (simulada)</h3><label for="fNivel">Nivel</label><select id="fNivel"><option>Aceptación por clic</option><option>Firma por OTP</option><option>Firma autógrafa digital</option><option>e.firma / FIEL (mock)</option></select><p><button id="firmar">Firmar</button> <button class="sec" id="expo">Exportar expediente probatorio (JSON)</button></p><p class="mut" id="firmaOut" aria-live="polite"></p><p class="mut">Validez probatoria y requisitos de la firma de pagarés y contratos: VALIDAR CON ABOGADO.</p></div></div>
+<section id="requisitos"><span class="tag">Requisitos y proceso</span><h2>Cómo funciona</h2>
+<div class="grid g2"><div class="card"><h3>Qué necesitas</h3><ul><li>Ser mayor de 18 y hasta 70 años.</li><li>CURP, RFC e INE vigente.</li><li>Comprobante de ingresos y de domicilio.</li><li>Cuenta CLABE a tu nombre.</li></ul></div>
+<div class="card"><h3>Pasos</h3><ol><li>Simulas y ves tu CAT.</li><li>Evaluación orientativa.</li><li>Solicitud y verificación.</li><li>Firma electrónica y depósito.</li></ol></div></div></section>
+<section id="faq"><span class="tag">Preguntas frecuentes</span><h2>FAQ</h2><div class="card">
+<details><summary>¿Qué es el CAT?</summary><p>El Costo Anual Total expresa en porcentaje anual todo lo que cuesta el crédito (intereses, comisiones y seguros) para comparar ofertas. Aquí se muestra sin IVA.</p></details>
+<details><summary>¿Puedo pagar antes sin penalización?</summary><p>Sí, en esta demo. Puedes ver el ahorro en intereses en la calculadora de pago anticipado.</p></details>
+<details><summary>¿Qué pasa si me atraso?</summary><p>Tras los días de gracia se calcula interés moratorio solo sobre la cuota vencida. Pruébalo en la calculadora de mora.</p></details>
+<details><summary>¿Esto es un crédito real?</summary><p>No. AVANZA es una marca de demostración y ninguna solicitud genera obligaciones.</p></details></div></section>
+<section id="contacto"><span class="tag">Contacto</span><h2>Hablemos</h2><div class="card"><p>Correo: contacto@avanza.example · Tel: 55 0000 0000 · Lun a vie, 9:00 a 18:00 (datos de ejemplo).</p>
+<p><b>UNE:</b> une@avanza.example · 55 0000 0001 (EJEMPLO). <b>CONDUSEF:</b> 55 5340 0999 · condusef.gob.mx (VALIDAR). <b>RECA / SIPRES / REDECO:</b> pendientes de registro.</p></div></section>
+<section id="estado"><span class="tag">Transparencia de la demo</span><h2>Qué es real y qué falta</h2><div class="note"><b>Estado de publicación:</b> el HTML está completo como demo local. Para que sea permanente falta cargarlo en la aplicación web administrada, declarar la ruta principal y crear un checkpoint publicado; hasta entonces un preview sin código puede mostrar 502 o no desplegar el contenido.</div>
+<div class="grid g2"><div class="card"><h3>Funciona en esta demo</h3><p>Simulador (cuota, TEM, CAT por TIR, IVA, cronograma CSV, calendario con feriados y día de pago), comparador de escenarios, pago anticipado, refinanciación y mora. Evaluación orientativa con pérdida esperada y antifraude. Solicitud de prueba con contrato, firma simulada y expediente probatorio. Panel interno con jurídico, cobranza, ARCO, PLD, sucesión, estado de cuenta, gobierno y registros de datos. Todo guardado solo en este navegador.</p></div>
+<div class="card" id="pend"><h3>Simulado o pendiente</h3></div></div><div class="card" style="margin-top:14px"><h3>Pruebas automáticas</h3><div class="scroll"><table id="tests"></table></div></div></section>
+</main>
+<a id="wa" href="https://wa.me/525500000000" aria-label="WhatsApp (número de ejemplo)">WhatsApp</a>
+
+<footer>AVANZA es una marca ficticia de demostración. Valores de tasas, comisiones y textos regulatorios: <b>EJEMPLO – VALIDAR CON ABOGADO FINANCIERO MEXICANO</b>. Borrador sujeto a revisión de abogado – no constituye asesoría legal.</footer>
+
+<script>
+/* ===== CONFIG: todo valor editable vive aquí ===== */
+const CONFIG={locale:'es-MX',iva:.16,comision:.02,seguroMensual:.0005,
+ productos:{
+  consumo:{n:'Consumo',min:500,max:5000,pMin:3,pMax:12,tasa:.45},
+  libre:{n:'Libre inversión',min:5000,max:20000,pMin:6,pMax:36,tasa:.32},
+  premium:{n:'Premium (buen historial)',min:20000,max:50000,pMin:12,pMax:60,tasa:.22}},
+ avisoTasa:.60, // alerta si la tasa anual supera este valor (referencia de mercado: VALIDAR)
+ pendientes:['Consulta real a Buró y Círculo de Crédito','Firma electrónica y constancia NOM-151','Validación INE/biometría, OTP real','Pasarela de pagos, SPEI/CLABE, domiciliación','Contrato de adhesión, RECA, pagaré, UNE y CONDUSEF','PLD/KYC, listas PEP/OFAC/UIF','Mora, cobranza y provisiones','Módulo jurídico real (aquí es una versión básica simulada, sin juicios ni embargos reales)','Comités, actas y registros con edición, borrado y adjuntos','Multiusuario y roles reales (el panel usa una contraseña de demo)','Backend, base de datos y cifrado','Calibración del scoring con datos reales']};
+const $=id=>document.getElementById(id);
+const mx=c=>(c/100).toLocaleString(CONFIG.locale,{style:'currency',currency:'MXN'}); // dinero interno en centavos
+const pct=x=>(x*100).toFixed(1)+'%';
+
+/* ===== Motor financiero (centavos enteros) ===== */
+const CALENDAR={desembolso:null,diaPago:0,feriados:[]};
+function fechaN(base,k,m){const d=new Date(base);if(m===12)d.setMonth(d.getMonth()+k);else d.setDate(d.getDate()+k*(m===26?14:7));return d}
+function esHabil(d){const x=new Date(d),iso=x.toISOString().slice(0,10);return x.getDay()!==0&&x.getDay()!==6&&!CALENDAR.feriados.includes(iso)}
+function siguienteHabil(d){const x=new Date(d);while(!esHabil(x))x.setDate(x.getDate()+1);return x}
+function fechaProgramada(base,k,m){if(!CALENDAR.desembolso)return fechaN(base,k,m);let d=new Date(CALENDAR.desembolso+'T12:00:00');if(m===12){d.setDate(1);d.setMonth(d.getMonth()+k);if(CALENDAR.diaPago)d.setDate(Math.min(CALENDAR.diaPago,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()))}else d.setDate(d.getDate()+k*(m===26?14:7));return siguienteHabil(d)}
+function motor(montoMXN,n,m,tasa){
+ const P=Math.round(montoMXN*100),i=tasa/m,com=Math.round(P*CONFIG.comision);
+ const pago=Math.round(P*i/(1-Math.pow(1+i,-n)));
+ const segR=CONFIG.seguroMensual*12/m;let s=P,rows=[],tI=0,tS=0,tIva=0,hoy=new Date();
+ for(let k=1;k<=n;k++){
+  const int=Math.round(s*i),seg=Math.round(s*segR);let cap=pago-int;if(k===n)cap=s;
+  const cuota=cap+int;const iva=Math.round((int+(k===1?com:0))*CONFIG.iva);
+  s-=cap;tI+=int;tS+=seg;tIva+=iva;
+  rows.push({k,f:fechaProgramada(hoy,k,m),cuota,int,cap,seg,iva,total:cuota+seg+iva,saldo:s});}
+ // CAT: TIR de flujos (sin IVA): recibe P-comisión, paga cuota+seguro
+ const fl=rows.map(r=>r.cuota+r.seg),net=P-com;
+ const f=r=>fl.reduce((a,c,k)=>a+c/Math.pow(1+r,k+1),0)-net;
+ let lo=0,hi=1;for(let j=0;j<80;j++){const mid=(lo+hi)/2;f(mid)>0?lo=mid:hi=mid}
+ const cat=Math.pow(1+lo,m)-1;
+ return{P,com,pago,rows,tI,tS,tIva,cat,total:rows.reduce((a,r)=>a+r.total,0)+com}}
+
+/* ===== Simulador ===== */
+let R=null;
+function cargaProd(){const p=CONFIG.productos[$('prod').value];
+ $('monto').min=p.min;$('monto').max=p.max;$('monto').step=p.max>20000?1000:500;
+ $('plazo').min=p.pMin;$('plazo').max=p.pMax;
+ if(+$('monto').value<p.min||+$('monto').value>p.max)$('monto').value=Math.round((p.min+p.max)/2/500)*500;
+ if(+$('plazo').value<p.pMin||+$('plazo').value>p.pMax)$('plazo').value=Math.round((p.pMin+p.pMax)/2);
+ $('rate').value=pct(p.tasa)+' anual';sim()}
+function sim(){
+ const p=CONFIG.productos[$('prod').value],m=+$('frec').value,mult=m/12;
+ const monto=+$('monto').value,meses=+$('plazo').value,n=Math.round(meses*mult);
+ $('oMonto').textContent=mx(monto*100);$('oPlazo').textContent=meses+' meses ('+n+' pagos)';
+ $('aviso').textContent=p.tasa>CONFIG.avisoTasa?'⚠ Tasa por encima de la referencia de mercado configurada. VALIDAR.':'Tasa de ejemplo. VALIDAR con asesor legal.';
+ R=motor(monto,n,m,p.tasa);
+ $('cuota').textContent=mx(R.pago+Math.round(R.rows[0].seg));
+ const kv=(a,b)=>`<div class="kv"><span>${a}</span><b>${b}</b></div>`;
+ $('resumen').innerHTML=kv('Tasa anual ordinaria',pct(p.tasa))+kv('Tasa efectiva mensual (TEM)',pct(Math.pow(1+p.tasa/m,m/12)-1))+kv('CAT (sin IVA)',pct(R.cat))+kv('Intereses',mx(R.tI))+kv('Seguro',mx(R.tS))+kv('Comisión por apertura',mx(R.com))+kv('IVA (16% s/ interés y comisión)',mx(R.tIva))+kv('Total a pagar',mx(R.total));
+ $('heroCuota').textContent=$('cuota').textContent;$('heroSub').textContent=`${mx(R.P)} a ${meses} meses · CAT ${pct(R.cat)}`;
+ $('crono').innerHTML='<tr><th>#</th><th>Fecha</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Seguro</th><th>IVA</th><th>Saldo</th></tr>'+R.rows.map(r=>`<tr><td>${r.k}</td><td>${r.f.toLocaleDateString(CONFIG.locale)}</td><td>${mx(r.cuota)}</td><td>${mx(r.int)}</td><td>${mx(r.cap)}</td><td>${mx(r.seg)}</td><td>${mx(r.iva)}</td><td>${mx(r.saldo)}</td></tr>`).join('');
+ dibuja();if(window.pintaAp&&$("apOut"))pintaAp()}
+function dibuja(){if(!R)return;const c=$('chart'),w=c.clientWidth,h=180,d=devicePixelRatio||1;c.width=w*d;c.height=h*d;
+ const x=c.getContext('2d');x.scale(d,d);x.clearRect(0,0,w,h);const cs=getComputedStyle(document.documentElement);
+ const mxv=Math.max(...R.rows.map(r=>r.cuota)),bw=w/R.rows.length;
+ R.rows.forEach((r,k)=>{const hc=r.cap/mxv*(h-10),hi=r.int/mxv*(h-10),px=k*bw+bw*.12,ww=bw*.76;
+  x.fillStyle=cs.getPropertyValue('--cap');x.fillRect(px,h-hc,ww,hc);x.fillStyle=cs.getPropertyValue('--int');x.fillRect(px,h-hc-hi,ww,hi)})}
+$('csv').onclick=()=>{const l=['numero,fecha,cuota,interes,capital,seguro,iva,saldo',...R.rows.map(r=>[r.k,r.f.toISOString().slice(0,10),...[r.cuota,r.int,r.cap,r.seg,r.iva,r.saldo].map(v=>(v/100).toFixed(2))].join(','))];
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([l.join('\n')],{type:'text/csv'}));a.download='cronograma-avanza.csv';a.click()};
+
+/* ===== Evaluación orientativa (scoring 0-100: pesos 35/30/20/10/5) ===== */
+$('evalBtn').onclick=()=>{
+ const edad=+$('edad').value,ing=+$('ing').value,deu=+$('deu').value,ant=+$('ant').value,emp=+$('emp').value,hist=+$('hist').value;
+ const m=+$('frec').value,cuotaMes=(R.pago+R.rows[0].seg)/100*m/12;
+ const dti=ing>0?(deu+cuotaMes)/ing:9,mot=[],tasa0=CONFIG.productos[$('prod').value].tasa;
+ let rechazo=false;
+ if(edad<18||edad>70){rechazo=true;mot.push('Edad fuera del rango 18 a 70 años.')}
+ if(dti>.5){rechazo=true;mot.push(`Endeudamiento de ${pct(dti)} supera el máximo de 50%.`)}
+ if(ing<=0){rechazo=true;mot.push('Sin ingreso comprobable.')}
+ const cap=35*Math.max(0,Math.min(1,(.5-dti)/.15)),his=30*hist,est=20*(Math.min(ant,36)/36*.5+emp*.5),end=10*Math.max(0,1-(deu/(ing||1))/.5),ed=(edad>=25&&edad<=60)?5:2.5;
+ const sc=Math.round(cap+his+est+end+ed);
+ let nivel,col,txt,ajuste=0;
+ if(rechazo||sc<40){nivel='Rechazo orientativo';col='var(--bad)';txt='Con estos datos no sería viable.';}
+ else if(sc>=80){nivel='Aprobación con tasa preferencial';col='var(--ok)';ajuste=-.04}
+ else if(sc>=60){nivel='Aprobación con condiciones';col='var(--warn)'}
+ else{nivel='Revisión manual';col='var(--warn)';ajuste=.04}
+ if(dti>.35&&!rechazo)mot.push(`Endeudamiento de ${pct(dti)}: lo ideal es menos de 35%.`);
+ if(hist<.5)mot.push('El historial de pagos reduce el puntaje.');if(ant<12)mot.push('Antigüedad laboral menor a 12 meses.');
+ // contraoferta: monto que dejaría el DTI en 35%
+ const dispon=Math.max(0,ing*.35-deu),sug=cuotaMes>0?Math.floor(R.P/100*dispon/cuotaMes/500)*500:0;
+ const el=perdidaEsperada(sc,R.P),af=antifraude(edad,ing,emp,R.P/100),bur=buroSim(hist,ant);
+ $('evalOut').innerHTML=`<div class="big" style="color:${col}">${sc}/100</div><p><span class="sem" style="background:${col}"></span><b>${nivel}</b></p>${rechazo||sc<40?'':`<p>Tasa ajustada por riesgo: <b>${pct(tasa0+ajuste)}</b> (base ${pct(tasa0)}).</p>`}<ul>${mot.map(t=>`<li>${t}</li>`).join('')||'<li>Sin alertas relevantes.</li>'}</ul>${sug>0&&dti>.35?`<p class="note">Contraoferta orientativa: unos ${mx(sug*100)} mantendrían tu endeudamiento cerca de 35%.</p>`:''}<p class="mut">Indicador interno de pérdida esperada (PD ${pct(el.pd)} × LGD ${pct(CONFIG.lgd)} × EAD): ${mx(el.el)}. Score Buró simulado: ${bur}/850 (dato de ejemplo).</p>${af.length?`<p class="note">Banderas antifraude: ${af.join("; ")}</p>`:""}<p class="mut">Resultado orientativo y no vinculante.</p>`};
+
+/* ===== Solicitud de prueba ===== */
+let paso=0;const curpRe=/^[A-Z]{4}\d{6}[HM][A-Z]{2}[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9]\d$/;
+const ETAPAS=['Recibida','En verificación','En evaluación','Aprobada (simulada)','Firmada','Desembolsada'];
+function muestra(){document.querySelectorAll('[data-s]').forEach(e=>e.hidden=+e.dataset.s!==paso);
+ document.querySelectorAll('.steps span').forEach((e,k)=>e.classList.toggle('on',k<=paso));
+ $('prev').hidden=paso===0;$('next').textContent=paso===2?'Enviar solicitud de prueba':'Siguiente';
+ if(paso===1)$('solRes').textContent=`${mx(R.P)} · ${$('plazo').value} meses · cuota ${$('cuota').textContent}`}
+function valida(){const e=[];
+ if(paso===0){if($('nom').value.trim().length<5)e.push('Escribe tu nombre completo.');
+  if(!curpRe.test($('curp').value.toUpperCase()))e.push('CURP con formato inválido (18 caracteres).');
+  if(!/^\S+@\S+\.\S+$/.test($('mail').value))e.push('Correo inválido.');
+  if(!/^\d{10}$/.test($('tel').value))e.push('Teléfono de 10 dígitos.')}
+ if(paso===1&&$('otp').value!=='123456')e.push('OTP incorrecto (usa 123456).');
+ if(paso===2&&!($('c1').checked&&$('c2').checked))e.push('Acepta ambos consentimientos.');
+ $('err').textContent=e.join(' ');return!e.length}
+$('prev').onclick=()=>{paso--;muestra()};
+$('next').onclick=()=>{if(!valida())return;if(paso<2){paso++;muestra();return}
+ const folio='AVZ-'+Date.now().toString(36).toUpperCase().slice(-6);
+ const s={folio,nombre:$('nom').value,curp:$('curp').value.toUpperCase(),tel:$('tel').value,monto:R.P,plazo:+$('plazo').value,frec:{12:'mensual',26:'quincenal',52:'semanal'}[$('frec').value],prod:CONFIG.productos[$('prod').value].n,tasa:CONFIG.productos[$('prod').value].tasa,cat:R.cat,pago:R.pago+R.rows[0].seg,com:R.com,total:R.total,fecha:new Date().toISOString(),estado:'Recibida'};
+ try{const l=JSON.parse(localStorage.getItem('avz')||'[]');l.push(s);localStorage.setItem('avz',JSON.stringify(l))}catch(_){}
+ let k=0;const pinta=()=>{$('folio').innerHTML=`<h3>Folio ${folio}</h3><p class="mut">Solicitud de prueba de ${s.nombre.split(' ')[0]}. Estados avanzando de forma simulada.</p><ol class="tl">${ETAPAS.map((t,j)=>`<li class="${j<=k?'done':''}">${t}</li>`).join('')}</ol><button class="nop" id="vcon">Ver contrato y hoja resumen</button>`;$('vcon').onclick=()=>abreDoc(s)};
+ pinta();const t=setInterval(()=>{if(++k>=ETAPAS.length)clearInterval(t);pinta()},1200)};
+
+/* ===== CONFIG adicional (mora, cobranza, clasificación) ===== */
+Object.assign(CONFIG,{tasaMora:.60,diasGracia:3,cargoCobranza:15000,cobranzaDesde:8, /* cargo en centavos */
+ clases:[[8,'Normal',.01],[30,'CPP',.05],[60,'Deficiente',.25],[120,'Dudoso',.6],[1e9,'Pérdida',1]]});
+const D=24*3600*1e3;
+
+/* ===== Comparador ===== */
+let esc=[];
+function pintaCmp(){$('cmp').innerHTML=esc.length?'<tr><th>#</th><th>Escenario</th><th>Pago</th><th>CAT</th><th>Total</th></tr>'+esc.map((e,k)=>`<tr><td>${k+1}</td><td>${e.t}</td><td>${mx(e.pago)}</td><td>${pct(e.cat)}</td><td>${mx(e.total)}</td></tr>`).join(''):'<tr><td>Sin escenarios guardados</td></tr>'}
+$('guardaEsc').onclick=()=>{if(esc.length>=3)esc.shift();const f={12:'mensual',26:'quincenal',52:'semanal'}[$('frec').value];
+ esc.push({t:`${CONFIG.productos[$('prod').value].n}, ${mx(R.P)}, ${$('plazo').value} m, ${f}`,pago:R.pago+R.rows[0].seg,cat:R.cat,total:R.total});pintaCmp()};
+$('limpia').onclick=()=>{esc=[];pintaCmp()};
+
+/* ===== Pago anticipado ===== */
+function anticipado(rows,tasa,m,k,x,modo){
+ const n=rows.length;k=Math.min(Math.max(1,k),n-1);const saldo=rows[k-1].saldo,i=tasa/m;
+ const intOrig=rows.slice(k).reduce((a,r)=>a+r.int,0),s2=saldo-x;
+ if(s2<=0)return{total:true,saldo,ahorro:intOrig};
+ const pago=rows[0].cuota;let n2,pago2,int2;
+ if(modo==='plazo'){let s=s2,c=0;int2=0;while(s>0&&c<1000){const it=Math.round(s*i);int2+=it;s-=Math.min(pago-it,s);c++}n2=c;pago2=pago}
+ else{n2=n-k;pago2=Math.round(s2*i/(1-Math.pow(1+i,-n2)));int2=pago2*n2-s2}
+ return{total:false,saldo,s2,n2,pago2,ahorro:intOrig-int2,pagosRest:n-k}}
+function pintaAp(){const x=Math.round(+$('apX').value*100),k=+$('apK').value;
+ const a=anticipado(R.rows,CONFIG.productos[$('prod').value].tasa,+$('frec').value,k,x,$('apM').value);
+ const kv=(t,v)=>`<div class="kv"><span>${t}</span><b>${v}</b></div>`;
+ $('apOut').innerHTML=kv('Saldo capital antes del abono',mx(a.saldo))+(a.total?kv('El abono liquida el crédito','Saldo a liquidar '+mx(a.saldo)):kv('Nuevo saldo',mx(a.s2))+kv('Pagos restantes',`${a.pagosRest} → ${a.n2}`)+kv('Pago por periodo',mx(a.pago2)))+kv('Ahorro estimado en intereses',mx(Math.max(0,a.ahorro)))}
+['apK','apX','apM'].forEach(i=>$(i).oninput=pintaAp);
+
+/* ===== Mora (sin anatocismo) ===== */
+function moraCalc(cuota,dias){
+ const dm=Math.max(0,dias-CONFIG.diasGracia),mora=Math.round(cuota*(Math.pow(1+CONFIG.tasaMora,dm/360)-1));
+ const cargo=dias>=CONFIG.cobranzaDesde?CONFIG.cargoCobranza:0,iva=Math.round((mora+cargo)*CONFIG.iva);
+ const c=CONFIG.clases.find(c=>dias<=c[0]);
+ return{mora,cargo,iva,total:cuota+mora+cargo+iva,cat:c[1],prov:Math.round(cuota*c[2])}}
+function pintaMora(){const v=$('moV').valueAsNumber,p=$('moP').valueAsNumber;if(isNaN(v)||isNaN(p))return;
+ const d=Math.max(0,Math.round((p-v)/D)),c=Math.round(+$('moC').value*100),r=moraCalc(c,d);
+ const kv=(t,x)=>`<div class="kv"><span>${t}</span><b>${x}</b></div>`;
+ $('moOut').innerHTML=kv('Días de atraso',d+` (gracia: ${CONFIG.diasGracia})`)+kv('Interés moratorio',mx(r.mora))+kv('Cargo de cobranza (desde día '+CONFIG.cobranzaDesde+')',mx(r.cargo))+kv('IVA',mx(r.iva))+kv('Total a pagar hoy',mx(r.total))+kv('Clasificación interna',r.cat)+kv('Provisión sugerida (interna)',mx(r.prov))}
+['moC','moV','moP'].forEach(i=>$(i).oninput=pintaMora);
+const hoy=new Date();$('moP').valueAsNumber=Date.UTC(hoy.getFullYear(),hoy.getMonth(),hoy.getDate());$('moV').valueAsNumber=$('moP').valueAsNumber-10*D;
+
+/* ===== Pruebas automáticas ===== */
+function pruebas(){const t=[];const ok=(n,c)=>t.push([n,!!c]);
+ [12,26,52].forEach(m=>{const r=motor(10000,m,m,.48);ok(`10,000 MXN, 48%, ${m} pagos: saldo final 0.00`,r.rows[r.rows.length-1].saldo===0)});
+ const r=motor(10000,12,12,.48);ok('CAT ≥ tasa anual nominal con comisiones',r.cat>=.48);
+ ok('IVA = 16% de (interés + comisión) en el pago 1',r.rows[0].iva===Math.round((r.rows[0].int+r.com)*.16));
+ ok('Suma de capital = monto',r.rows.reduce((a,x)=>a+x.cap,0)===r.P);
+ ['GOMC850101HDFRRL09','PEPJ900215MJCRRN08'].forEach(c=>ok('CURP válida '+c,curpRe.test(c)));
+ ['GOMC850101XDFRRL09','corta','1234'].forEach(c=>ok('CURP inválida «'+c+'»',!curpRe.test(c)));
+ ok('Mora: 0 dentro de días de gracia',moraCalc(150000,CONFIG.diasGracia).mora===0);
+ ok('Mora: cargo de cobranza desde el día 8',moraCalc(150000,7).cargo===0&&moraCalc(150000,8).cargo>0);
+ ok('Mora: 61 a 120 días = Dudoso',moraCalc(150000,90).cat==='Dudoso');
+ const a=anticipado(r.rows,.48,12,3,200000,'plazo');ok('Pago anticipado reduce plazo y ahorra intereses',a.n2<a.pagosRest&&a.ahorro>0);
+ $('tests').innerHTML='<tr><th>Prueba</th><th>Resultado</th></tr>'+t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join('')}
+
+/* ===== Cookies ===== */
+try{if(!localStorage.getItem('avzck'))$('cookies').hidden=false}catch(_){$('cookies').hidden=false}
+$('okCk').onclick=()=>{$('cookies').hidden=true;try{localStorage.setItem('avzck','1')}catch(_){}};
+
+/* ===== CONFIG jurídico/operación (EJEMPLO – VALIDAR) ===== */
+Object.assign(CONFIG,{adminPass:'avanza2026',reca:'RECA-DEMO-0000 (EJEMPLO)',une:{correo:'une@avanza.example',tel:'55 0000 0001'},condusef:'55 5340 0999',
+ plantilla:{v:'1.0',vence:'2027-12-31'},prescripcionAnios:3,alertasPresc:[180,90,30],
+ matriz:[['Aviso de privacidad','LFPDPPP','Compliance','Anual'],['Registro de contratos de adhesión','LPDUSF (RECA)','Legal','Cada cambio'],['Reporte de operaciones inusuales','PLD / LFPIORPI','Oficial PLD','Mensual'],['Atención de quejas UNE','LPDUSF','Atención a clientes','Continua']]});
+const ESTADOS=['Recibida','En verificación','En evaluación','Aprobada','Rechazada','Firmada','Desembolsada'];
+const leer=()=>{try{return JSON.parse(localStorage.getItem('avz')||'[]')}catch(_){return[]}};
+const guarda=l=>{try{localStorage.setItem('avz',JSON.stringify(l))}catch(_){}};
+
+/* ===== Contrato: validaciones, texto y huella ===== */
+function contratoFaltantes(x,c=CONFIG,hoy=new Date()){const f=[];
+ if(!x.cat)f.push('CAT');if(!c.tasaMora)f.push('tasa moratoria');if(!c.une||!c.une.correo)f.push('datos de la UNE');
+ if(!c.condusef)f.push('datos de CONDUSEF');if(!c.reca)f.push('número RECA');
+ if(new Date(c.plantilla.vence)<hoy)f.push('plantilla vigente (vencida)');return f}
+const pagareOk=(a,b)=>a.monto===b.monto&&a.vence===b.vence;
+async function sha256(t){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(_){return'(SHA-256 no disponible en este navegador)'}}
+function textoContrato(x){const L=[];
+ L.push('HOJA RESUMEN Y CONTRATO DE CRÉDITO (BORRADOR)','Folio: '+x.folio,'Plantilla: v'+CONFIG.plantilla.v+' · vigente hasta '+CONFIG.plantilla.vence,'Fecha: '+new Date(x.fecha).toLocaleDateString(CONFIG.locale),'',
+ 'Acreditado: '+x.nombre,'Producto: '+x.prod,'Monto del crédito: '+mx(x.monto),'Plazo: '+x.plazo+' meses, pagos '+x.frec+'es','Pago periódico (con seguro): '+mx(x.pago),
+ 'Tasa de interés ordinaria anual: '+pct(x.tasa),'Tasa de interés moratoria anual: '+pct(CONFIG.tasaMora)+' (solo sobre cuota vencida, sin capitalizar)','CAT (sin IVA, informativo y para comparación): '+pct(x.cat),
+ 'Comisión por apertura: '+mx(x.com)+' · IVA: '+pct(CONFIG.iva)+' sobre intereses y comisiones','Total a pagar: '+mx(x.total),'',
+ 'Pago anticipado: permitido sin penalización.','Aclaraciones: UNE '+CONFIG.une.correo+' · '+CONFIG.une.tel,'CONDUSEF: '+CONFIG.condusef,'Registro de contrato de adhesión: '+CONFIG.reca,'',
+ 'Borrador sujeto a revisión de abogado – no constituye asesoría legal. EJEMPLO – VALIDAR.');return L.join('\n')}
+async function abreDoc(x){const f=contratoFaltantes(x);
+ $('docT').textContent=f.length?'Contrato bloqueado':'Contrato y hoja resumen';
+ if(f.length){$('docP').textContent='No se puede generar: falta '+f.join(', ')+'.';$('docH').textContent=''}
+ else{const t=textoContrato(x);$('docP').textContent=t;$('docH').textContent='SHA-256: '+await sha256(t)}
+ $('docbox').hidden=false;docActual=x;$('firmaBox').hidden=!!f.length;$('firmaOut').textContent=''}
+$('cierra').onclick=()=>{$('docbox').hidden=true};
+$('imp').onclick=()=>{document.body.classList.add('pdoc');print();document.body.classList.remove('pdoc')};
+
+/* ===== Prescripción ===== */
+function prescr(venc,hoyMs){const l=new Date(venc);l.setFullYear(l.getFullYear()+CONFIG.prescripcionAnios);
+ const dias=Math.round((l.getTime()-hoyMs)/D),al=CONFIG.alertasPresc.filter(a=>dias<=a);return{limite:l,dias,alerta:al.length?Math.min(...al):0}}
+$('prF').oninput=()=>{const v=$('prF').valueAsNumber;if(isNaN(v)){$('prOut').textContent='';return}
+ const r=prescr(v,Date.now());$('prOut').innerHTML=`Límite estimado: <b>${r.limite.toISOString().slice(0,10)}</b> (${r.dias} días). `+(r.dias<0?'<b style="color:var(--bad)">Prescrita (según el plazo de ejemplo).</b>':r.alerta?`<b style="color:var(--warn)">⚠ Alerta: quedan ${r.alerta} días o menos.</b>`:'Sin alerta.')+' <span class="chip">Plazo en CONFIG – VALIDAR</span>'};
+
+/* ===== Panel interno ===== */
+$('entrar').onclick=()=>{if($('pw').value===CONFIG.adminPass){$('gate').hidden=true;$('adm').hidden=false;$('pwErr').textContent='';pintaDashboard();pintaAdm()}else $('pwErr').textContent='Contraseña incorrecta.'};
+$('salir').onclick=()=>{$('adm').hidden=true;$('gate').hidden=false;$('pw').value=''};
+function pintaDashboard(){const l=leer(),X=leerX(),q=X.quejas||[],reg=X.reg||{},regCount=Object.values(reg).reduce((a,v)=>a+v.length,0),open=q.filter(x=>x.abierta).length;const counts=ESTADOS.map(e=>[e,l.filter(x=>x.estado===e).length]);$('dashMetrics').innerHTML=[['Solicitudes',l.length],['En proceso',l.filter(x=>['Recibida','En verificación','En evaluación'].includes(x.estado)).length],['Aprobadas',l.filter(x=>['Aprobada','Firmada','Desembolsada'].includes(x.estado)).length],['Casos abiertos',open],['Registros Gobierno',regCount],['Despachos', (X.despachos||[]).length]].map(x=>`<div class="metric"><strong>${x[1]}</strong><span>${x[0]}</span></div>`).join('');$('dashStatus').innerHTML=counts.map(x=>`<div class="kv"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')+`<p class="mut">Pruebas visibles en la sección Estado. Todo el almacenamiento es local y simulado.</p>`}
+const tab=n=>{[0,1,2,3,4].forEach(k=>{$('p'+k).hidden=n!==k;$('t'+k).className=n===k?'on':'sec'});if(n===0)pintaDashboard();if(n===1)pintaAdm();if(n===2){pintaJur();pintaGob()}if(n===3){pintaCasos();pintaLegal();pintaEtapas();pintaSucesion()}if(n===4)pintaReg()};
+$('t0').onclick=()=>tab(0);$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);$('t3').onclick=()=>tab(3);$('t4').onclick=()=>tab(4);$('dashRefresh').onclick=pintaDashboard;document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>tab(+b.dataset.go));
+$('flt').innerHTML='<option value="">Todos</option>'+ESTADOS.map(e=>`<option>${e}</option>`).join('');$('flt').onchange=pintaAdm;
+function pintaAdm(){const l=leer().filter(x=>!$('flt').value||x.estado===$('flt').value);
+ $('lista').innerHTML='<tr><th>Folio</th><th>Nombre</th><th>Monto</th><th>Estado</th><th>Contrato</th></tr>'+(l.length?l.map(x=>`<tr><td>${x.folio}</td><td>${x.nombre}</td><td>${mx(x.monto)}</td><td><select data-f="${x.folio}" aria-label="Estado de ${x.folio}">${ESTADOS.map(e=>`<option${e===x.estado?' selected':''}>${e}</option>`).join('')}</select></td><td><button class="sec" data-c="${x.folio}">Ver</button></td></tr>`).join(''):'<tr><td colspan="5">Sin solicitudes. Envía una desde «Mi solicitud».</td></tr>');
+ $('lista').querySelectorAll('select').forEach(e=>e.onchange=()=>{const a=leer(),x=a.find(y=>y.folio===e.dataset.f);if(x){x.estado=e.value;guarda(a)}});
+ $('lista').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>abreDoc(leer().find(y=>y.folio===b.dataset.c)))}
+function pintaJur(){const l=leer(),c=e=>l.filter(x=>x.estado===e).length,kv=(a,b)=>`<div class="kv"><span>${a}</span><b>${b}</b></div>`;
+ $('tab').innerHTML=kv('Solicitudes totales',l.length)+kv('En proceso',c('Recibida')+c('En verificación')+c('En evaluación'))+kv('Aprobadas / firmadas / desembolsadas',c('Aprobada')+c('Firmada')+c('Desembolsada'))+kv('Rechazadas',c('Rechazada'))+kv('Contratos bloqueados (faltan datos legales)',l.filter(x=>contratoFaltantes(x).length).length);
+ $('mat').innerHTML='<tr><th>Obligación</th><th>Ley</th><th>Responsable</th><th>Periodicidad</th><th>Estado</th></tr>'+CONFIG.matriz.map(m=>'<tr>'+m.map(v=>`<td>${v}</td>`).join('')+'<td>Pendiente</td></tr>').join('');hashUi()}
+async function hashUi(){$('hOut').textContent='SHA-256: '+await sha256($('hTxt').value)}$('hTxt').oninput=hashUi;
+/* ===== Pruebas (extra) ===== */
+async function pruebasJur(){const t=[],ok=(n,c)=>t.push([n,!!c]);
+ ok('Contrato bloqueado sin número RECA',contratoFaltantes({cat:.5},{...CONFIG,reca:''}).includes('número RECA'));
+ ok('Contrato bloqueado sin CAT',contratoFaltantes({},CONFIG).includes('CAT'));
+ ok('Plantilla vencida bloqueada',contratoFaltantes({cat:.5},CONFIG,new Date('2030-01-01')).some(x=>x.includes('vencida')));
+ ok('Pagaré con monto distinto al contrato genera error',!pagareOk({monto:100000,vence:'2027-01-01'},{monto:100001,vence:'2027-01-01'}));
+ const h=await sha256('Pagaré por 1000'),h2=await sha256('Pagaré por 1001');ok('La huella cambia si se altera una palabra o cifra',h!==h2);
+ const b=Date.UTC(2026,0,1);
+ ok('Alerta de prescripción a 180, 90 y 30 días (y ninguna fuera de plazo)',[180,90,30].every(a=>{const ven=new Date(b+a*D);ven.setFullYear(ven.getFullYear()-CONFIG.prescripcionAnios);return prescr(ven,b).alerta===a})&&(()=>{const ven=new Date(b+400*D);ven.setFullYear(ven.getFullYear()-CONFIG.prescripcionAnios);return prescr(ven,b).alerta===0})());
+ $('tests').insertAdjacentHTML('beforeend',t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join(''))}
+/* ===== Casos: pagaré, quejas, cobranza, ARCO, PLD ===== */
+Object.assign(CONFIG,{horaCobranza:[7,21],maxIntentosDia:3,plazoArcoDias:20,diasCarteraVencida:90,umbralPLD:4000000,
+ listasMock:['juan pérez ejemplo','maría lista bloqueada','pep demo']});
+const escH=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const leerX=()=>{try{return Object.assign({pagares:{},quejas:[],arco:[],intentos:{}},JSON.parse(localStorage.getItem('avzx')||'{}'))}catch(_){return{pagares:{},quejas:[],arco:[],intentos:{}}}};
+const guardaX=x=>{try{localStorage.setItem('avzx',JSON.stringify(x))}catch(_){}};
+function venceStr(x){const d=new Date(x.fecha);d.setMonth(d.getMonth()+x.plazo);return d.toISOString().slice(0,10)}
+function arcoLimite(desdeMs,dias){let d=new Date(desdeMs),n=0;while(n<dias){d=new Date(d.getTime()+D);if(d.getUTCDay()!==0&&d.getUTCDay()!==6)n++}return d}
+function cobranzaPermitida(hora,intentosHoy,suspendida){
+ if(suspendida)return{ok:false,motivo:'Cobranza suspendida: hay queja, aclaración, concurso o fallecimiento del deudor abierto (presentar el crédito y activar el seguro).'};
+ if(hora<CONFIG.horaCobranza[0]||hora>=CONFIG.horaCobranza[1])return{ok:false,motivo:`Fuera de horario (${CONFIG.horaCobranza[0]}:00 a ${CONFIG.horaCobranza[1]}:00).`};
+ if(intentosHoy>=CONFIG.maxIntentosDia)return{ok:false,motivo:`Máximo de ${CONFIG.maxIntentosDia} intentos por día alcanzado.`};
+ return{ok:true,motivo:'Intento permitido y registrado.'}}
+const carteraEstado=dias=>dias>=CONFIG.diasCarteraVencida?'Cartera vencida: deja de devengar intereses en balance':'Cartera vigente';
+function pldCheck(nombre,montoCent){const n=nombre.trim().toLowerCase(),hit=n&&CONFIG.listasMock.some(l=>n.includes(l));
+ return{hit,riesgo:hit?'Alto':montoCent>CONFIG.umbralPLD?'Medio':'Bajo'}}
+const suspendida=f=>leerX().quejas.some(q=>q.folio===f&&q.abierta);
+const selSol=()=>leer().find(x=>x.folio===$('cSel').value);
+function pintaCasos(){const l=leer(),v=$('cSel').value;$('cSel').innerHTML=l.length?l.map(x=>`<option>${escH(x.folio)}</option>`).join(''):'<option value="">(sin solicitudes)</option>';if(v)$('cSel').value=v;
+ const x=selSol(),X=leerX();$('cInfo').textContent=x?`${x.nombre} · ${mx(x.monto)} · ${x.plazo} meses`+(suspendida(x.folio)?' · COBRANZA SUSPENDIDA':''):'Envía una solicitud de prueba para trabajar los casos.';
+ if(x&&X.pagares[x.folio])$('pgCus').value=X.pagares[x.folio].custodia;
+ $('qTab').innerHTML='<tr><th>Folio</th><th>Caso</th><th>Estado</th><th></th></tr>'+X.quejas.filter(q=>!x||q.folio===x.folio).map(q=>`<tr><td>${escH(q.id)}</td><td>${escH(q.tipo)}</td><td>${q.abierta?'Abierto':'Cerrado'}</td><td><button class="sec" data-q="${escH(q.id)}">${q.abierta?'Cerrar':'Reabrir'}</button></td></tr>`).join('');
+ $('qTab').querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const Y=leerX(),q=Y.quejas.find(z=>z.id===b.dataset.q);q.abierta=!q.abierta;guardaX(Y);pintaCasos()});
+ $('aTab').innerHTML='<tr><th>Folio</th><th>Derecho</th><th>Fecha límite (20 días hábiles)</th></tr>'+X.arco.map(a=>`<tr><td>${escH(a.id)}</td><td>${escH(a.tipo)}</td><td>${a.limite}</td></tr>`).join('')}
+$('cSel').onchange=()=>{pintaCasos();pintaLegal();pintaEtapas();pintaSucesion()};
+$('pgBtn').onclick=()=>{const x=selSol();if(!x){$('pgOut').textContent='Primero elige una solicitud.';return}
+ const X=leerX(),pg={suscriptor:x.nombre,beneficiario:'AVANZA (ficticia)',monto:x.monto,vence:venceStr(x),lugar:'Ciudad de México',intereses:pct(x.tasa)+' anual',custodia:$('pgCus').value};
+ const ok=pagareOk(pg,{monto:x.monto,vence:venceStr(x)});X.pagares[x.folio]=pg;guardaX(X);
+ $('pgOut').textContent=`PAGARÉ (borrador)\nSuscriptor: ${pg.suscriptor}\nBeneficiario: ${pg.beneficiario}\nMonto: ${mx(pg.monto)}\nVencimiento: ${pg.vence}\nLugar: ${pg.lugar}\nIntereses: ${pg.intereses}\nCustodia: ${pg.custodia}\nCoincide con el contrato: ${ok?'SÍ':'ERROR: monto o fecha distintos'}\nBorrador sujeto a revisión de abogado.`};
+$('qBtn').onclick=()=>{const x=selSol();if(!x)return;const X=leerX();X.quejas.push({id:'Q-'+Date.now().toString(36).toUpperCase().slice(-5),folio:x.folio,tipo:$('qTipo').value,abierta:true});guardaX(X);pintaCasos()};
+$('cBtn').onclick=()=>{const x=selSol();if(!x){$('cOut').textContent='Elige una solicitud.';return}
+ const X=leerX(),k=x.folio+'|'+new Date().toISOString().slice(0,10),n=X.intentos[k]||0,r=cobranzaPermitida(+$('cHora').value,n,suspendida(x.folio));
+ if(r.ok){X.intentos[k]=n+1;guardaX(X)}
+ const dias=+$('cDias').value,m=moraCalc(Math.round(x.pago),dias);
+ $('cOut').innerHTML=`<b style="color:var(--${r.ok?'ok':'bad'})">${r.ok?'✔':'✖'} ${r.motivo}</b> (intentos hoy: ${X.intentos[k]||n})<div class="kv"><span>Adeudo a la fecha (cuota + mora + cargo + IVA)</span><b>${mx(m.total)}</b></div><div class="kv"><span>Clasificación</span><b>${m.cat}</b></div><div class="kv"><span>Cartera</span><b>${carteraEstado(dias)}</b></div>`};
+$('aBtn').onclick=()=>{const X=leerX(),h=Date.now();X.arco.push({id:'ARCO-'+h.toString(36).toUpperCase().slice(-5),tipo:$('aTipo').value,limite:arcoLimite(h,CONFIG.plazoArcoDias).toISOString().slice(0,10)});guardaX(X);pintaCasos()};
+$('pBtn').onclick=()=>{const x=selSol(),r=pldCheck($('pNom').value||(x?x.nombre:''),x?x.monto:0);
+ $('pOut').innerHTML=`<div class="kv"><span>Coincidencia en listas (PEP/OFAC/UIF, simuladas)</span><b>${r.hit?'SÍ':'No'}</b></div><div class="kv"><span>Riesgo PLD</span><b>${r.riesgo}</b></div>`+(r.hit?'<p class="note">Escalar al oficial de cumplimiento. No avisar al cliente. Evaluar aviso a la autoridad (VALIDAR).</p>':'')};
+async function pruebasCasos(){const t=[],ok=(n,c)=>t.push([n,!!c]);
+ ok('Cobranza fuera de horario bloqueada',!cobranzaPermitida(23,0,false).ok&&!cobranzaPermitida(5,0,false).ok);
+ ok('El 4º intento del día se bloquea',cobranzaPermitida(10,2,false).ok&&!cobranzaPermitida(10,3,false).ok);
+ ok('Cobranza suspendida con queja o concurso abierto',!cobranzaPermitida(10,0,true).ok);
+ ok('Cartera vencida a los 90 días',carteraEstado(89).includes('vigente')&&carteraEstado(90).includes('vencida'));
+ ok('ARCO: plazo de 20 días hábiles (lunes → 20 hábiles después)',arcoLimite(Date.UTC(2026,0,5),20).toISOString().slice(0,10)==='2026-02-02');
+ ok('PLD detecta coincidencia en lista y marca riesgo alto',pldCheck('Juan Pérez Ejemplo',0).hit&&pldCheck('Juan Pérez Ejemplo',0).riesgo==='Alto'&&!pldCheck('Ana López',100).hit);
+ $('tests').insertAdjacentHTML('beforeend',t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join(''))}
+/* ===== Cobranza judicial, despachos, embargos y contingencias ===== */
+Object.assign(CONFIG,{inembargables:['Salario','Casa habitación','Instrumentos de trabajo'],umbralVender:.3,umbralDemandar:.6});
+const honorarios=(rec,pct)=>Math.round(rec*pct/100);
+function decisionLegal(adeudo,prob,costo){const net=Math.round(adeudo*prob)-costo;
+ if(net<=0)return{d:'Castigar',net};if(prob<CONFIG.umbralVender)return{d:'Vender cartera',net};if(prob>=CONFIG.umbralDemandar)return{d:'Demandar',net};return{d:'Reestructurar',net}}
+const embargable=b=>CONFIG.inembargables.includes(b)?{ok:false,t:'Generalmente NO embargable (ejemplo). VALIDAR con abogado.'}:{ok:true,t:'Embargable con requisitos de ley. VALIDAR límites y orden de bienes.'};
+const provCont=(monto,prob)=>Math.round(monto*prob/100);
+const adeudoSol=x=>moraCalc(Math.round(x.pago),+$('cDias').value);
+function cartaReq(x,m){return `CARTA DE REQUERIMIENTO PREJUDICIAL (borrador)\nFecha: ${new Date().toLocaleDateString(CONFIG.locale)}\nA: ${x.nombre}\nFolio de crédito: ${x.folio}\n\nPor este medio se le informa que su pago está vencido. Adeudo a la fecha (cuota, interés moratorio, cargo de cobranza e IVA): ${mx(m.total)}. Interés moratorio calculado solo sobre la cuota vencida, sin capitalizar.\n\nPuede pagar o aclarar en: UNE ${CONFIG.une.correo} · ${CONFIG.une.tel}. Si tiene una aclaración o queja abierta, la cobranza se suspende.\n\nBorrador sujeto a revisión de abogado – no constituye asesoría legal.`}
+function plantillaDem(x,m){return `DEMANDA EJECUTIVA MERCANTIL (plantilla borrador)\nActor: AVANZA (ficticia) · Demandado: ${x.nombre}\nVía: juicio ejecutivo mercantil (Código de Comercio).\nTítulo base: pagaré por ${mx(x.monto)}, folio ${x.folio}.\nPrestaciones: capital, intereses ordinarios, intereses moratorios, IVA y costas. Adeudo estimado: ${mx(m.total)}.\nHechos: [redactar con abogado].\nPruebas: contrato, pagaré, estado de cuenta certificado, historial de gestiones.\nEtapas: demanda, auto de exequendo, requerimiento y embargo, emplazamiento, contestación, pruebas, sentencia, ejecución y remate.\n\nBorrador sujeto a revisión de abogado – no constituye asesoría legal.`}
+$('lgCarta').onclick=()=>{const x=selSol();$('lgTxt').value=x?cartaReq(x,adeudoSol(x)):'Primero elige una solicitud.'};
+$('lgDem').onclick=()=>{const x=selSol();$('lgTxt').value=x?plantillaDem(x,adeudoSol(x)):'Primero elige una solicitud.'};
+$('lgEval').onclick=()=>{const x=selSol();if(!x){$('lgOut').textContent='Elige una solicitud.';return}
+ const ad=adeudoSol(x).total,pr=+$('lgProb').value/100,co=Math.round(+$('lgCosto').value*100),r=decisionLegal(ad,pr,co);
+ $('lgOut').innerHTML=`<div class="kv"><span>Adeudo</span><b>${mx(ad)}</b></div><div class="kv"><span>Recuperación esperada</span><b>${mx(Math.round(ad*pr))}</b></div><div class="kv"><span>Costo esperado</span><b>${mx(co)}</b></div><div class="kv"><span>Neto esperado</span><b>${mx(r.net)}</b></div><div class="kv"><span>Decisión sugerida</span><b>${r.d}</b></div>`};
+$('emB').onchange=()=>{const r=embargable($('emB').value);$('emOut').innerHTML=`<b style="color:var(--${r.ok?'warn':'bad'})">${r.t}</b>`};$('emB').onchange();
+$('dsBtn').onclick=()=>{const n=$('dsN').value.trim();if(!n)return;const X=leerX();X.despachos=(X.despachos||[]).concat({n,p:+$('dsP').value,sla:+$('dsS').value,clausula:$('dsC').value||'No capturada',auditoria:$('dsA').value||'—',resultado:$('dsR').value||'Pendiente'});guardaX(X);pintaLegal()};
+$('ctBtn').onclick=()=>{const x=selSol();if(!x)return;const X=leerX(),m=Math.round(+$('ctM').value*100);X.cont=(X.cont||[]).concat({f:x.folio,m,p:+$('ctP').value,prov:provCont(m,+$('ctP').value)});guardaX(X);pintaLegal()};
+function pintaLegal(){const X=leerX(),x=selSol(),ad=x?adeudoSol(x).total:0;
+ $('dsTab').innerHTML='<tr><th>Despacho</th><th>Cuota litis</th><th>SLA</th><th>Honorario</th><th>Auditoría contractual</th><th>Última auditoría</th><th>Resultado</th></tr>'+(X.despachos||[]).map(d=>`<tr><td>${escH(d.n)}</td><td>${d.p}%</td><td>${d.sla} d</td><td>${mx(honorarios(ad,d.p))}</td><td>${escH(d.clausula||'—')}</td><td>${escH(d.auditoria||'—')}</td><td>${escH(d.resultado||'Pendiente')}</td></tr>`).join('');
+ const C=X.cont||[];$('ctTab').innerHTML='<tr><th>Folio</th><th>Monto</th><th>Prob.</th><th>Provisión</th></tr>'+C.map(c=>`<tr><td>${escH(c.f)}</td><td>${mx(c.m)}</td><td>${c.p}%</td><td>${mx(c.prov)}</td></tr>`).join('')+(C.length?`<tr><td colspan="3"><b>Provisión total</b></td><td><b>${mx(C.reduce((a,c)=>a+c.prov,0))}</b></td></tr>`:'')}
+$('cSel').addEventListener('change',pintaLegal);
+async function pruebasLegal(){const t=[],ok=(n,c)=>t.push([n,!!c]);
+ ok('Honorario de cuota litis 20% sobre $1,000.00',honorarios(100000,20)===20000);
+ ok('Decisión: castigar, vender, demandar, reestructurar',decisionLegal(100000,.05,900000).d==='Castigar'&&decisionLegal(1000000,.2,10000).d==='Vender cartera'&&decisionLegal(1000000,.7,10000).d==='Demandar'&&decisionLegal(1000000,.45,10000).d==='Reestructurar');
+ ok('Salario e instrumentos de trabajo marcados no embargables',!embargable('Salario').ok&&!embargable('Instrumentos de trabajo').ok&&embargable('Vehículo').ok);
+ ok('Provisión por contingencia = monto × probabilidad',provCont(2000000,40)===800000);
+ const x={nombre:'Ana',folio:'AVZ-1',monto:1000000},m={total:123456};ok('Carta y demanda incluyen leyenda de revisión de abogado',cartaReq(x,m).includes('revisión de abogado')&&plantillaDem(x,m).includes('revisión de abogado'));
+ $('tests').insertAdjacentHTML('beforeend',t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join(''))}
+/* ===== Final: pérdida esperada, antifraude, firma, etapas, riesgo ===== */
+Object.assign(CONFIG,{lgd:.6,etapas:['Demanda','Auto de exequendo','Requerimiento y embargo','Emplazamiento','Contestación','Pruebas','Sentencia','Ejecución','Remate']});
+function perdidaEsperada(sc,ead){const pd=Math.min(.4,Math.max(.02,(100-sc)/100*.4));return{pd,el:Math.round(pd*CONFIG.lgd*ead)}}
+function antifraude(edad,ing,emp,monto){const f=[];
+ if((edad<25&&ing>60000)||(emp<1&&ing>150000))f.push('ingreso muy alto para la edad o el tipo de empleo');
+ if(monto>ing*6)f.push('monto desproporcionado frente al ingreso');return f}
+const buroSim=(hist,ant)=>Math.round(450+hist*350+Math.min(ant,60)*2);
+const riesgoScore=(p,i)=>({score:p*i,nivel:p*i>=15?'Alto':p*i>=8?'Medio':'Bajo'});
+function evidencia(x,nivel,hash,ahora){return{folio:x.folio,nivel,fecha:ahora,textoHash:hash,dispositivo:(typeof navigator!=='undefined'?navigator.userAgent:'n/d'),ip:'no disponible en la demo',geolocalizacion:'no solicitada',sello:'MOCK tipo NOM-151 · '+ahora}}
+let docActual=null;
+$('firmar').onclick=async()=>{const x=docActual;if(!x)return;const h=await sha256(textoContrato(x)),ev=evidencia(x,$('fNivel').value,h,new Date().toISOString());
+ const X=leerX();X.firmas=X.firmas||{};X.firmas[x.folio]=ev;X.custodia=(X.custodia||[]).concat({folio:x.folio,accion:'Firma ('+ev.nivel+')',fecha:ev.fecha});guardaX(X);
+ const a=leer(),y=a.find(z=>z.folio===x.folio);if(y){y.estado='Firmada';guarda(a)}
+ $('firmaOut').textContent='Firmado ('+ev.nivel+'). Sello: '+ev.sello};
+$('expo').onclick=()=>{const x=docActual,X=leerX();if(!x||!X.firmas||!X.firmas[x.folio]){$('firmaOut').textContent='Primero firma el documento.';return}
+ const o={evidencia:X.firmas[x.folio],contrato:textoContrato(x),pagare:X.pagares[x.folio]||null,custodia:(X.custodia||[]).filter(c=>c.folio===x.folio).concat({folio:x.folio,accion:'Exportación del expediente',fecha:new Date().toISOString()})};
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,2)],{type:'application/json'}));a.download='expediente-'+x.folio+'.json';a.click()};
+$('etE').innerHTML=CONFIG.etapas.map(e=>`<option>${e}</option>`).join('');
+$('etBtn').onclick=()=>{const x=selSol();if(!x)return;const X=leerX();X.etapasJ=(X.etapasJ||[]).concat({f:x.folio,e:$('etE').value,r:$('etR').value||'Sin asignar',c:Math.round(+$('etC').value*100),d:new Date().toISOString().slice(0,10)});guardaX(X);pintaEtapas()};
+function pintaEtapas(){const x=selSol(),E=(leerX().etapasJ||[]).filter(e=>x&&e.f===x.folio);
+ $('etTab').innerHTML='<tr><th>Fecha</th><th>Etapa</th><th>Responsable</th><th>Costo</th></tr>'+E.map(e=>`<tr><td>${e.d}</td><td>${e.e}</td><td>${escH(e.r)}</td><td>${mx(e.c)}</td></tr>`).join('')+(E.length?`<tr><td colspan="3"><b>Costo acumulado</b></td><td><b>${mx(E.reduce((a,e)=>a+e.c,0))}</b></td></tr>`:'')}
+$('cSel').addEventListener('change',pintaEtapas);$('t3').addEventListener('click',pintaEtapas);
+$('gBtn').onclick=()=>{if(!$('gD').value.trim())return;const r=riesgoScore(+$('gP').value,+$('gI').value),X=leerX();X.gob=(X.gob||[]).concat({t:$('gT').value,d:$('gD').value,r:$('gR').value||'Sin asignar',...r});guardaX(X);pintaGob()};
+function pintaGob(){$('gTab').innerHTML='<tr><th>Tipo</th><th>Descripción</th><th>Responsable</th><th>P×I</th><th>Nivel</th></tr>'+(leerX().gob||[]).map(g=>`<tr><td>${g.t}</td><td>${escH(g.d)}</td><td>${escH(g.r)}</td><td>${g.score}</td><td>${g.nivel}</td></tr>`).join('')}
+async function pruebasFinal(){const t=[],ok=(n,c)=>t.push([n,!!c]);
+ ok('Pérdida esperada = PD × LGD × EAD',perdidaEsperada(100,1000000).el===12000&&perdidaEsperada(0,1000000).pd===.4);
+ ok('Antifraude: ingreso inusual y monto desproporcionado',antifraude(22,90000,1,50000).length===1&&antifraude(35,10000,1,100000).length===1&&antifraude(35,20000,1,20000).length===0);
+ ok('Matriz de riesgo: 20 Alto, 9 Medio, 6 Bajo',riesgoScore(5,4).nivel==='Alto'&&riesgoScore(3,3).nivel==='Medio'&&riesgoScore(2,3).nivel==='Bajo');
+ ok('Evidencia de firma incluye hash, nivel, sello y sin IP real',(e=>e.textoHash==='abc'&&e.nivel==='OTP'&&e.sello.includes('NOM-151')&&e.ip.includes('no disponible'))(evidencia({folio:'F'},'OTP','abc','2026-01-01T00:00:00Z')));
+ $('tests').insertAdjacentHTML('beforeend',t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join(''))}
+/* ===== Refinanciación y registros de gobierno/datos ===== */
+Object.assign(CONFIG,{tasaRefi:.28,horasBrecha:72});
+function refin(adeudoMXN,meses){return motor(adeudoMXN,meses,12,CONFIG.tasaRefi)}
+function pintaRf(){const a=+$('rfM').value,n=+$('rfP').value;if(!(a>0&&n>0)){$('rfOut').textContent='';return}const r=refin(a,n),kv=(t,v)=>`<div class="kv"><span>${t}</span><b>${v}</b></div>`;
+ $('rfOut').innerHTML=kv('Tasa anual ordinaria',pct(CONFIG.tasaRefi))+kv('Pago mensual (con seguro)',mx(r.pago+r.rows[0].seg))+kv('CAT (sin IVA)',pct(r.cat))+kv('Total a pagar',mx(r.total))}
+['rfM','rfP'].forEach(i=>$(i).oninput=pintaRf);
+const REG={comites:{t:'Comités y actas',f:[['Comité','select:Cumplimiento,Riesgos'],['Acuerdo','text'],['Responsable','text'],['Fecha límite','date']]},
+ seguros:{t:'Seguros y fianzas',f:[['Póliza','text'],['Cobertura','text'],['Vence','date']]},
+ archivo:{t:'Archivo legal (retención y destrucción)',f:[['Expediente','text'],['Fecha de cierre','date'],['Años de retención','number']]},
+ datos:{t:'Inventario de tratamientos de datos',f:[['Dato','text'],['Finalidad','text'],['Base o consentimiento','text'],['Encargado','text'],['Conservación (años)','number']]},
+ brechas:{t:'Brechas de seguridad',f:[['Incidente','text'],['Detectada','date'],['Datos afectados','text']]}};
+function derivado(k,v,hoy){const t=i=>new Date(v[i]).getTime();
+ if(k==='seguros'){if(isNaN(t(2)))return'—';const d=Math.round((t(2)-hoy)/D);return d<0?'Vencida':d<=30?`Por vencer (${d} d)`:'Vigente'}
+ if(k==='archivo'){if(isNaN(t(1)))return'—';const x=new Date(v[1]);x.setFullYear(x.getFullYear()+(+v[2]||0));return'Destruir desde '+x.toISOString().slice(0,10)}
+ if(k==='brechas'){if(isNaN(t(1)))return'—';return'Notificar antes de '+new Date(t(1)+CONFIG.horasBrecha*36e5).toISOString().slice(0,10)}
+ if(k==='comites'){if(isNaN(t(3)))return'—';return t(3)<hoy?'Vencido':'En plazo'}return'—'}
+function pintaReg(){const X=leerX(),R=X.reg||{};
+ $('p4').innerHTML=Object.entries(REG).map(([k,r])=>`<div class="card" style="margin-top:14px"><h3>${r.t} <span class="chip">EJEMPLO – VALIDAR</span></h3><div class="row">${r.f.map((f,i)=>{const id=`r_${k}_${i}`;return `<div><label for="${id}">${f[0]}</label>${f[1].startsWith('select:')?`<select id="${id}">${f[1].slice(7).split(',').map(o=>`<option>${o}</option>`).join('')}</select>`:`<input id="${id}" type="${f[1]}">`}</div>`}).join('')}</div><label for="rf_${k}">Adjunto local (opcional)</label><input id="rf_${k}" type="file"><p><button data-add="${k}">Agregar</button></p><div class="scroll"><table><tr>${r.f.map(f=>`<th>${f[0]}</th>`).join('')}<th>Estado</th><th>Adjunto</th><th>Acciones</th></tr>${(R[k]||[]).map((raw,idx)=>{const v=raw.vals?raw:{vals:raw,file:null};return `<tr>${v.vals.map(c=>`<td>${escH(c)}</td>`).join('')}<td>${derivado(k,v.vals,Date.now())}</td><td>${v.file?escH(v.file.name)+' ('+v.file.size+' bytes)':'—'}</td><td><button class="sec" data-edit="${k}:${idx}">Editar</button> <button class="sec" data-del="${k}:${idx}">Borrar</button></td></tr>`}).join('')}</table></div></div>`).join('');
+ $('p4').querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const k=b.dataset.add,v=REG[k].f.map((_,i)=>$(`r_${k}_${i}`).value);if(!v[0]&&!v[1])return;const file=$(`rf_${k}`).files[0],Y=leerX();Y.reg=Y.reg||{};Y.reg[k]=(Y.reg[k]||[]).concat({vals:v,file:file?{name:file.name,size:file.size,type:file.type}:null});guardaX(Y);pintaReg()});
+ $('p4').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const [k,i]=b.dataset.del.split(':'),Y=leerX();Y.reg[k].splice(+i,1);guardaX(Y);pintaReg()});
+ $('p4').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const [k,i]=b.dataset.edit.split(':'),Y=leerX(),row=Y.reg[k][+i],vals=row.vals.map((v,j)=>prompt(REG[k].f[j][0],v));if(vals.every(v=>v!==null)){row.vals=vals;guardaX(Y);pintaReg()}})}
+ async function pruebasReg(){const t=[],ok=(n,c)=>t.push([n,!!c]),h=Date.UTC(2026,0,1);
+ ok('Seguro: vencida, por vencer (≤30 días) y vigente',derivado('seguros',['a','b','2025-12-01'],h)==='Vencida'&&derivado('seguros',['a','b','2026-01-11'],h).startsWith('Por vencer')&&derivado('seguros',['a','b','2027-01-01'],h)==='Vigente');
+ ok('Archivo legal: destrucción = cierre + años de retención',derivado('archivo',['e','2026-01-01','10'],h)==='Destruir desde 2036-01-01');
+ ok('Brecha: notificar dentro de 72 horas',derivado('brechas',['i','2026-01-01','d'],h)==='Notificar antes de 2026-01-04');
+ ok('Comité: acuerdo vencido sin cerrar',derivado('comites',['C','a','r','2025-12-31'],h)==='Vencido'&&derivado('comites',['C','a','r','2026-02-01'],h)==='En plazo');
+ const r=refin(8000,12);ok('Refinanciación: saldo final 0 y CAT ≥ tasa',r.rows[r.rows.length-1].saldo===0&&r.cat>=CONFIG.tasaRefi);
+ $('tests').insertAdjacentHTML('beforeend',t.map(([n,c])=>`<tr><td>${n}</td><td style="color:var(--${c?'ok':'bad'})"><b>${c?'PASS':'FAIL'}</b></td></tr>`).join(''))}
+/* ===== Calendario, antifraude, estado de cuenta y trazabilidad ===== */
+function pintaCalendario(){const d=CALENDAR.desembolso||new Date().toISOString().slice(0,10);$('desembolso').value=d;$('diaPago').innerHTML=Array.from({length:28},(_,i)=>`<option value="${i+1}">${i+1} de cada mes</option>`).join('');$('diaPago').value=CALENDAR.diaPago||new Date(d+'T12:00:00').getDate();$('feriados').value=CALENDAR.feriados.join(', ');$('calOut').textContent=CALENDAR.desembolso?'Calendario aplicado: fines de semana y feriados pasan al siguiente día hábil.':'Usando fechas de ejemplo.'}
+$('aplicaCalendario').onclick=()=>{CALENDAR.desembolso=$('desembolso').value;CALENDAR.diaPago=+$('diaPago').value;CALENDAR.feriados=$('feriados').value.split(',').map(x=>x.trim()).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x));pintaCalendario();sim()};$('restauraCalendario').onclick=()=>{CALENDAR.desembolso=null;CALENDAR.diaPago=0;CALENDAR.feriados=[];pintaCalendario();sim()};
+function buscaDuplicados(c,t){const C=c.trim().toUpperCase(),T=t.replace(/\D/g,'');return leer().filter(x=>(C&&x.curp===C)||(T&&x.tel===T))}
+$('afBtn').onclick=()=>{const h=buscaDuplicados($('afCurp').value,$('afTel').value);$('afOut').innerHTML=h.length?`<p class="note">Coincidencias: ${h.map(x=>escH(x.folio)+' · '+escH(x.nombre)).join(', ')}</p>`:'<p style="color:var(--ok)">Sin coincidencias exactas locales.</p>'};
+function estadoCuenta(x,mes){const d=mes||new Date().toISOString().slice(0,7),rows=R?R.rows.filter(r=>r.f.toISOString().slice(0,7)===d):[];return `ESTADO DE CUENTA (BORRADOR)\nFolio: ${x.folio}\nAcreditado: ${x.nombre}\nPeriodo: ${d}\n\n${rows.length?rows.map(r=>`Pago ${r.k} · ${r.f.toISOString().slice(0,10)} · total ${mx(r.total)} · capital ${mx(r.cap)} · interés ${mx(r.int)} · saldo ${mx(r.saldo)}`).join('\n'):'No hay pagos en el periodo.'}\n\nPendiente conciliar contra backend.`}
+$('ecBtn').onclick=()=>{const x=selSol();$('ecOut').textContent=x?estadoCuenta(x,$('ecMes').value):'Elige una solicitud.'};
+function pintaSucesion(){const x=selSol(),E=(leerX().sucesion||[]).filter(e=>x&&e.f===x.folio);$('suTab').innerHTML='<tr><th>Fecha</th><th>Etapa</th><th>Resultado</th><th>Siguiente acción</th></tr>'+E.map(e=>`<tr><td>${e.d}</td><td>${escH(e.e)}</td><td>${escH(e.r)}</td><td>${escH(e.s)}</td></tr>`).join('')};$('suBtn').onclick=()=>{const x=selSol();if(!x)return;const Y=leerX();Y.sucesion=(Y.sucesion||[]).concat({f:x.folio,e:$('suEt').value,r:$('suRes').value||'Pendiente',s:$('suSig').value||'Revisar',d:new Date().toISOString().slice(0,10)});guardaX(Y);pintaSucesion()};
+/* ===== Arranque ===== */
+$('pend').innerHTML+=CONFIG.pendientes.map(t=>`<span class="chip">${t}</span>`).join('');
+$('prod').innerHTML=Object.entries(CONFIG.productos).map(([k,p])=>`<option value="${k}">${p.n}</option>`).join('');
+$('prod').value='libre';['prod'].forEach(i=>$(i).onchange=cargaProd);['frec','monto','plazo'].forEach(i=>$(i).oninput=sim);
+$('tema').onclick=()=>{const d=document.documentElement,o=getComputedStyle(d).getPropertyValue('--bg').trim()==='#0d1f1c';d.dataset.theme=o?'light':'dark';dibuja()};
+addEventListener('resize',dibuja);cargaProd();pintaCalendario();muestra();pintaCmp();pintaAp();pintaMora();$('ecMes').value=new Date().toISOString().slice(0,7);pruebas();pruebasJur();pruebasCasos();pruebasLegal();pruebasFinal();pruebasReg();pintaRf();
+</script>
+</body>
+</html>
