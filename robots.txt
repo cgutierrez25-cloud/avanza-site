@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cgutierrez25-cloud.github.io/avanza-site/sitemap.xml
